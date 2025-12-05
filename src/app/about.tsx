@@ -3,28 +3,45 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFavorite } from "../components/FavoriteContext";
+import type { MealCard } from "../components/Cards";
 
 export default function About() {
-    const router = useRouter();
-    const params = useLocalSearchParams<{
-        title?: string;
-        chef?: string;
-        rating?: string;
-        duration?: string;
-        rank?: string;
-        tagLine?: string;
-        image?: string;
-    }>();
+  const router = useRouter();
+  const { toggle, isFavorite } = useFavorite();
+  const params = useLocalSearchParams<{
+    id?: string;
+    title?: string;
+    chef?: string;
+    rating?: string;
+    duration?: string;
+    rank?: string;
+    tagLine?: string;
+    image?: string;
+  }>();
 
-    const {
-        title = "Borjomi 0,5 litr",
-        chef = "Natural mineral water",
-        rating = "4.9",
-        duration = "Best served chilled",
-        rank = "Top pick",
-        tagLine = "Crisp taste, lightly carbonated",
-        image = "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg",
-    } = params;
+  const {
+    id = "about-default",
+    title = "Borjomi 0,5 litr",
+    chef = "Natural mineral water",
+    rating = "4.9",
+    duration = "Best served chilled",
+    rank = "Top pick",
+    tagLine = "Crisp taste, lightly carbonated",
+    image = "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg",
+  } = params;
+
+  const isFav = isFavorite(id);
+  const aboutMeal: MealCard = {
+    id,
+    title,
+    chef,
+    rating,
+    duration,
+    rank,
+    tagLine,
+    image,
+  };
 
     return (
         <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
@@ -42,11 +59,18 @@ export default function About() {
 
                         <View className="flex-row items-center gap-3">
                             <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-card-strong/90">
-                                <Ionicons name="share-outline" size={24} color="#111827" />
-                            </Pressable>
-                            <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-card-strong/90">
-                                <Ionicons name="heart-outline" size={24} color="#111827" />
-                            </Pressable>
+                            <Ionicons name="share-outline" size={24} color="#111827" />
+                        </Pressable>
+              <Pressable
+                className="h-12 w-12 items-center justify-center rounded-full bg-card-strong/90"
+                onPress={() => toggle(aboutMeal)}
+              >
+                <Ionicons
+                  name={isFav ? "heart" : "heart-outline"}
+                  size={24}
+                  color={isFav ? "#d45500" : "#111827"}
+                />
+              </Pressable>
                         </View>
                     </View>
                 </View>

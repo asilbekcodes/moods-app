@@ -4,25 +4,29 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { MealCard } from "./Cards";
 import { useCart } from "./CartContext";
+import { useFavorite } from "./FavoriteContext";
 
 export default function RecipeCard({ meal }: { meal: MealCard }) {
   const router = useRouter();
   const { add, increment, decrement, getQuantity } = useCart();
+  const { toggle, isFavorite } = useFavorite();
 
   const qty = getQuantity(meal.id);
+  const fav = isFavorite(meal.id);
 
   const goToAbout = () => {
     router.push({
       pathname: "/about",
       params: {
+        id: meal.id,
         title: meal.title,
         chef: meal.chef,
-                rating: meal.rating,
-                duration: meal.duration,
-                rank: meal.rank,
-                tagLine: meal.tagLine,
-                image: meal.image,
-            },
+        rating: meal.rating,
+        duration: meal.duration,
+        rank: meal.rank,
+        tagLine: meal.tagLine,
+        image: meal.image,
+      },
     });
   };
 
@@ -115,10 +119,15 @@ export default function RecipeCard({ meal }: { meal: MealCard }) {
         <Pressable
           onPress={(e) => {
             e.stopPropagation?.();
+            toggle(meal);
           }}
           className="h-12 w-12 items-center justify-center rounded-full bg-foreground/10"
         >
-          <Ionicons name="bookmark-outline" size={22} color="#234823" />
+          <Ionicons
+            name={fav ? "heart" : "heart-outline"}
+            size={22}
+            color={fav ? "#d45500" : "#234823"}
+          />
         </Pressable>
       </View>
     </Pressable>
