@@ -1,7 +1,7 @@
 import { Image, View, Text, Pressable } from 'react-native'
 import React from 'react'
-import { MealCard } from './Cards';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { MealCard } from './Cards';
 
 export default function RecipeCard({ meal }: { meal: MealCard }) {
     return (
