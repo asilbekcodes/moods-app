@@ -1,11 +1,32 @@
-import { Image, View, Text, Pressable } from 'react-native'
-import React from 'react'
+import { Image, View, Text, Pressable } from "react-native";
+import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { MealCard } from './Cards';
+import { useRouter } from "expo-router";
+import { MealCard } from "./Cards";
 
 export default function RecipeCard({ meal }: { meal: MealCard }) {
+    const router = useRouter();
+
+    const goToAbout = () => {
+        router.push({
+            pathname: "/about",
+            params: {
+                title: meal.title,
+                chef: meal.chef,
+                rating: meal.rating,
+                duration: meal.duration,
+                rank: meal.rank,
+                tagLine: meal.tagLine,
+                image: meal.image,
+            },
+        });
+    };
+
     return (
-        <View className="rounded-4xl bg-card p-4">
+        <Pressable
+            onPress={goToAbout}
+            className="rounded-4xl bg-card p-4 active:opacity-90"
+        >
             {/* IMAGE + RANK BADGE */}
             <View className="relative overflow-hidden rounded-3xl">
                 <Image
@@ -39,26 +60,20 @@ export default function RecipeCard({ meal }: { meal: MealCard }) {
             </View>
 
             {/* TAGLINE */}
-            <Text className="mt-3 text-base text-foreground/70">
-                {meal.tagLine}
-            </Text>
+            <Text className="mt-3 text-base text-foreground/70">{meal.tagLine}</Text>
 
             {/* DURATION */}
             <View className="mt-4 flex-row items-center gap-2">
-                <Ionicons name='star' size={20} color="gold"/>
-                <Text className="text-base text-foreground/70">
-                    {meal.rating}
-                </Text>
+                <Ionicons name="star" size={20} color="gold" />
+                <Text className="text-base text-foreground/70">{meal.rating}</Text>
                 <View className="h-1 w-1 rounded-full bg-foreground/20" />
-                <Text className="text-base text-foreground/70">
-                    {meal.duration}
-                </Text>
+                <Text className="text-base text-foreground/70">{meal.duration}</Text>
             </View>
 
             {/* CTA BUTTONS */}
             <View className="mt-6 flex-row items-center gap-3">
                 <Pressable className="flex-1 rounded-full bg-cta py-4">
-                    <Text className="text-xl font-semibold text-center text-cta-text">
+                    <Text className="text-center text-xl font-semibold text-cta-text">
                         Add to cart
                     </Text>
                 </Pressable>
@@ -67,6 +82,6 @@ export default function RecipeCard({ meal }: { meal: MealCard }) {
                     <Ionicons name="bookmark-outline" size={22} color="#234823" />
                 </Pressable>
             </View>
-        </View>
-    )
+        </Pressable>
+    );
 }
