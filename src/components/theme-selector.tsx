@@ -36,7 +36,7 @@ export function ThemeSelectorComponent() {
 
   return (
     <View className="gap-3">
-      <Text className="text-lg font-bold text-primary mt-2">Themes</Text>
+      <Text className="text-lg font-bold text-primary">Themes</Text>
 
       <FlatList
         horizontal

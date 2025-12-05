@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeSelectorComponent } from "./theme-selector";
 import RecipeCard from "./RecipeCard";
 
@@ -76,7 +77,7 @@ const MEAL_CARDS: MealCard[] = [
 
 const Cards = () => {
     return (
-        <View className="flex-1 bg-background">
+        <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
             <FlatList
                 data={MEAL_CARDS}
                 keyExtractor={(item) => item.id}
@@ -102,7 +103,7 @@ const Cards = () => {
                     </View>
                 )}
             />
-        </View>
+        </SafeAreaView>
     );
 };
 

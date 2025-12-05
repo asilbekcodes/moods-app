@@ -45,6 +45,10 @@ export default function RecipeCard({ meal }: { meal: MealCard }) {
 
             {/* DURATION */}
             <View className="mt-4 flex-row items-center gap-2">
+                <Ionicons name='star' size={20} color="gold"/>
+                <Text className="text-base text-foreground/70">
+                    {meal.rating}
+                </Text>
                 <View className="h-1 w-1 rounded-full bg-foreground/20" />
                 <Text className="text-base text-foreground/70">
                     {meal.duration}
